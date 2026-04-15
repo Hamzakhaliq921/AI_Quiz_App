@@ -137,7 +137,7 @@ startquiz.addEventListener('click', async function () {
   document.getElementById("loader").style.display = "none";
  document.getElementById("home").style.display = "none";
   document.getElementById("quiz-page").style.display = "block";
-  
+
 console.log("QUIZ DATA:", quiz);
  currentQuiz = quiz;
 displayQuiz(quiz);
@@ -170,20 +170,30 @@ function displayQuiz(quiz) {
     container.innerHTML += html;
   });
 }
-
 document.getElementById("submit-btn").addEventListener("click", function () {
 
   let score = 0;
 
   currentQuiz.forEach((q, index) => {
 
-    const selected = document.querySelector(`input[name="q${index}"]:checked`);
+    const options = document.querySelectorAll(`input[name="q${index}"]`);
 
-    if (!selected) return;
+    options.forEach((input) => {
 
-    if (selected.value === q.answer) {
-      score++;
-    }
+      const label = input.parentElement;
+      label.classList.remove("correct", "wrong");
+      if (input.value === q.answer) {
+        label.classList.add("correct");
+      }
+      if (input.checked) {
+
+        if (input.value === q.answer) {
+          score++;
+        } else {
+          label.classList.add("wrong");
+        }
+      }
+    });
   });
 
   document.getElementById("result").innerText =
