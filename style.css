@@ -235,6 +235,7 @@ body {
 
   background: linear-gradient(135deg, #6366f1, #4f46e5);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 #quiz-container {
@@ -383,7 +384,7 @@ body {
 
 #result {
     background: none !important;
-  -webkit-background-clip: unset !important;
+    background-clip: unset !important;
   -webkit-text-fill-color: unset !important;
   color: black !important;
   font-size: 22px;
