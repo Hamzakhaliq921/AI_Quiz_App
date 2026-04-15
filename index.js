@@ -213,10 +213,13 @@ function startTimer(time) {
   }, 1000);
 }
 
-
 document.getElementById("submit-btn").addEventListener("click", function () {
 
-  clearInterval(timerInterval);
+  this.classList.add("glow-btn");
+
+  setTimeout(() => {
+    this.classList.remove("glow-btn");
+  }, 1200);
 
   let score = 0;
 
@@ -224,31 +227,21 @@ document.getElementById("submit-btn").addEventListener("click", function () {
 
     const options = document.querySelectorAll(`input[name="q${index}"]`);
 
-    options.forEach((input) => {
+    const selected = document.querySelector(`input[name="q${index}"]:checked`);
 
+    if (selected && selected.value === q.answer) {
+      score++;
+    }
+
+    options.forEach(input => {
       const label = input.parentElement;
       label.classList.remove("correct", "wrong");
-      if (input.value === q.answer) {
-        label.classList.add("correct");
-      }
-      if (input.checked) {
 
-        if (input.value === q.answer) {
-          score++;
-        } else {
-          label.classList.add("wrong");
-        }
-      }
+      if (input.value === q.answer) label.classList.add("correct");
+      if (input.checked && input.value !== q.answer) label.classList.add("wrong");
     });
+
   });
-  this.classList.add("glow-btn");
-
-  this.innerText = "Submitting...";
-
-  setTimeout(() => {
-    this.classList.remove("glow-btn");
-    this.innerText = "Submit Quiz";
-  }, 1500);
 
   document.getElementById("result").innerText =
     `🎯 Your Score: ${score} / ${currentQuiz.length}`;
