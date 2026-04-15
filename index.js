@@ -214,7 +214,7 @@ function startTimer(time) {
 }
 
 document.getElementById("submit-btn").addEventListener("click", function () {
-
+clearInterval(timerInterval);
   this.classList.add("glow-btn");
 
   setTimeout(() => {
