@@ -1,5 +1,4 @@
 
-let topic=document.getElementById('topic').value
   let selectedQuestions = 5;
 let selectedDifficulty = "easy";
 
@@ -79,6 +78,8 @@ Return format:
     const data=await response.json();
     let content = data.choices[0].message.content;
     const quizdata=data.parse(JSON);
+    console.log(quizdata);
+    
     return quizdata;
   }catch(error){
 console.error("AI Error:", error);
@@ -86,3 +87,24 @@ console.error("AI Error:", error);
     return [];       
   }
 }
+
+let startquiz = document.querySelector('.generate-btn');
+
+startquiz.addEventListener('click', async function () {
+
+  const topic = document.getElementById('topic').value;
+
+  if (!topic) {
+    alert("Please enter a topic");
+    return;
+  }
+
+  document.getElementById("loading").style.display = "block";
+  document.getElementById("quiz-container").innerHTML = "";
+
+  const quiz = await generateAIQuiz(topic, selectedQuestions, selectedDifficulty);
+
+  document.getElementById("loading").style.display = "none";
+
+  displayQuiz(quiz);
+});
