@@ -7,17 +7,18 @@
 </head>
 <body>
 
-  <div class="container">
-    <h1> AI Quiz Generator</h1>
+  <div class="container" id="home">
 
-    <input type="text" id="topic" placeholder="Enter topic (e.g. Javascript)">
+    <h1>AI Quiz Generator</h1>
+
+    <input type="text" id="topic" placeholder="Enter topic (e.g. JavaScript)">
 
     <p class="label">Number of Questions</p>
     <div class="mcq-buttons">
       <button onclick="setQuestions(5)">5</button>
-<button onclick="setQuestions(10)">10</button>
-<button onclick="setQuestions(15)">15</button>
-<button onclick="setQuestions(20)">20</button>
+      <button onclick="setQuestions(10)">10</button>
+      <button onclick="setQuestions(15)">15</button>
+      <button onclick="setQuestions(20)">20</button>
     </div>
 
     <input type="number" id="num" placeholder="Or enter custom number" min="1" max="50">
@@ -30,9 +31,8 @@
     </div>
 
     <button class="generate-btn">Generate Quiz</button>
-  </div>
-    <div id="quiz-container"></div>
 
+  </div>
 
   <div id="loader" class="loader-wrapper">
     <div class="loader">
@@ -41,10 +41,19 @@
     </div>
   </div>
 
+  <div id="quiz-page" style="display:none;">
 
-<script src="config.js"></script>
-<script src="index.js"></script>
+    <h2>Quiz</h2>
+
+    <div id="quiz-container"></div>
+
+    <button id="submit-btn">Submit Quiz</button>
+
+    <h2 id="result"></h2>
+
+  </div>
+
+  <script src="config.js"></script>
+  <script src="index.js"></script>
 </body>
 </html>
-
-
