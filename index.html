@@ -8,12 +8,10 @@
 <body>
 
   <div class="container">
-    <h1>🧠 AI Quiz Generator</h1>
+    <h1> AI Quiz Generator</h1>
 
-    <!-- Topic -->
     <input type="text" id="topic" placeholder="Enter topic (e.g. Physics)">
 
-    <!-- MCQ Buttons -->
     <p class="label">Number of Questions</p>
     <div class="mcq-buttons">
       <button onclick="setQuestions(5)">5</button>
@@ -24,7 +22,6 @@
 
     <input type="number" id="num" placeholder="Or enter custom number" min="1" max="50">
 
-    <!-- Difficulty Buttons -->
     <p class="label">Difficulty</p>
     <div class="difficulty-buttons">
       <button onclick="setDifficulty('easy')">Easy</button>
@@ -32,7 +29,6 @@
       <button onclick="setDifficulty('hard')">Hard</button>
     </div>
 
-    <!-- Generate Button -->
     <button class="generate-btn" onclick="startQuiz()">Generate Quiz</button>
   </div>
 
