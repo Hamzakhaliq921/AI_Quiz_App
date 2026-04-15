@@ -1,7 +1,7 @@
 
 let selectedQuestions = 5;
 let selectedDifficulty = "easy";
-
+let currentQuiz = [];
 function setQuestions(num) {
 
   selectedQuestions = num;
@@ -47,6 +47,21 @@ Rules:
 - Each question must have 4 options
 - Only ONE correct answer
 - Format strictly like JSON
+Return ONLY raw JSON array.
+No explanation.
+No markdown.
+
+NO missing fields allowed.
+
+Return format:
+[
+  {
+   "question": "",
+    "options": ["A", "B", "C", "D"],
+    "answer": "exact option text"
+  }
+]
+
 
 Return format:
 [
@@ -75,11 +90,27 @@ Return format:
       })
     });
     const data = await response.json();
-    let content = data.choices[0].message.content;
-    const quizdata = data.parse(JSON);
-    console.log(quizdata);
+  let content = data.choices[0].message.content;
 
-    return quizdata;
+console.log("RAW AI:", content);
+
+// remove markdown
+content = content.replace(/```json/g, "").replace(/```/g, "").trim();
+
+// extract JSON array
+let start = content.indexOf("[");
+let end = content.lastIndexOf("]") + 1;
+
+if (start === -1 || end === 0) {
+  throw new Error("Invalid AI response");
+}
+
+let clean = content.slice(start, end);
+
+const quizdata = JSON.parse(clean);
+
+return quizdata;
+console.log(topic, selectedQuestions, selectedDifficulty);
   } catch (error) {
     console.error("AI Error:", error);
     alert("Failed to generate quiz");
@@ -103,32 +134,58 @@ startquiz.addEventListener('click', async function () {
 
   const quiz = await generateAIQuiz(topic, selectedQuestions, selectedDifficulty);
 
-  document.getElementById("loading").style.display = "none";
-
-  displayQuiz(quiz);
+  document.getElementById("loader").style.display = "none";
+ document.getElementById("home").style.display = "none";
+  document.getElementById("quiz-page").style.display = "block";
+  
+console.log("QUIZ DATA:", quiz);
+ currentQuiz = quiz;
+displayQuiz(quiz);
 });
 
 function displayQuiz(quiz) {
   const container = document.getElementById('quiz-container');
-
+  container.innerHTML = "";
+  if (!quiz || quiz.length === 0) {
+    container.innerHTML = "<h3>No quiz generated ❌</h3>";
+    return;
+  }
   quiz.forEach((q, index) => {
-    let html = `
-        <div class="question">
-        <p><b>Q${index + 1}: ${q.question}</b></p>`;
 
-    question.option.forEach((opt) => {
+    let html = `
+      <div class="question">
+        <p><b>Q${index + 1}: ${q.question}</b></p>
+    `;
+
+    q.options.forEach(opt => {
       html += `
-      <label>
+        <label>
           <input type="radio" name="q${index}" value="${opt}">
           ${opt}
         </label><br>
-      `
+      `;
     });
+
     html += `</div><hr>`;
     container.innerHTML += html;
   });
-
-
-
-
 }
+
+document.getElementById("submit-btn").addEventListener("click", function () {
+
+  let score = 0;
+
+  currentQuiz.forEach((q, index) => {
+
+    const selected = document.querySelector(`input[name="q${index}"]:checked`);
+
+    if (!selected) return;
+
+    if (selected.value === q.answer) {
+      score++;
+    }
+  });
+
+  document.getElementById("result").innerText =
+    `🎯 Your Score: ${score} / ${currentQuiz.length}`;
+});
