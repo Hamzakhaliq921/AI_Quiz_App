@@ -1,5 +1,5 @@
 
-
+let topic=document.getElementById('topic').value
   let selectedQuestions = 5;
 let selectedDifficulty = "easy";
 
@@ -36,3 +36,53 @@ document.querySelectorAll(".difficulty-buttons button")
   event.target.classList.add('active')
 }
 
+async function generateAIQuiz(topic, numQuestions, difficulty) {
+
+  const systemPrompt = `
+You are a quiz generator AI.
+
+Generate ${numQuestions} multiple-choice questions.
+
+Rules:
+- Topic: ${topic}
+- Difficulty: ${difficulty}
+- Each question must have 4 options
+- Only ONE correct answer
+- Format strictly like JSON
+
+Return format:
+[
+  {
+    "question": "",
+    "options": ["", "", "", ""],
+    "answer": ""
+  }
+]
+`;
+  try {
+    const response = await fetch(CONFIG.OPENROUTER_API_URL, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${CONFIG.OPENROUTER_API_KEY}`,
+        "Content-Type": "application/json",
+        "HTTP-Referer": window.location.href,
+        "X-OpenRouter-Title": "AI Quiz Generator"
+      },
+      body: JSON.stringify({
+        model: "mistralai/mistral-small-3.2-24b-instruct",
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: `Generate quiz on ${topic}` }
+        ]
+      })
+    });
+    const data=await response.json();
+    let content = data.choices[0].message.content;
+    const quizdata=data.parse(JSON);
+    return quizdata;
+  }catch(error){
+console.error("AI Error:", error);
+    alert("Failed to generate quiz");
+    return [];       
+  }
+}
