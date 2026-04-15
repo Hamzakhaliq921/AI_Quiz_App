@@ -1,37 +1,36 @@
 
-  let selectedQuestions = 5;
+let selectedQuestions = 5;
 let selectedDifficulty = "easy";
 
-function setQuestions(num){
+function setQuestions(num) {
 
-selectedQuestions = num;
+  selectedQuestions = num;
 
-document.getElementById("num").value = num;
+  document.getElementById("num").value = num;
 
-document.querySelectorAll(".mcq-buttons button").forEach(btn=>btn.classList.remove("active"));
+  document.querySelectorAll(".mcq-buttons button").forEach(btn => btn.classList.remove("active"));
 
-event.target.classList.add("active");
+  event.target.classList.add("active");
 }
-document.addEventListener('DOMContentLoaded',function(){
-  let input=document.getElementById('num')
-  input.addEventListener('input',function (){
-    const value=this.value
+document.addEventListener('DOMContentLoaded', function () {
+  let input = document.getElementById('num')
+  input.addEventListener('input', function () {
+    const value = this.value
     console.log(value);
-    if(value>0 && value<50)
-    {
-      selectedQuestions=value
-          document.querySelectorAll(".mcq-buttons button")
-          .forEach(btn=>btn.classList.remove("active"));
+    if (value > 0 && value < 50) {
+      selectedQuestions = value
+      document.querySelectorAll(".mcq-buttons button")
+        .forEach(btn => btn.classList.remove("active"));
 
     }
-    
+
   });
 
 });
-function setDifficulty(format){
-selectedDifficulty=format
-document.querySelectorAll(".difficulty-buttons button")
-          .forEach(btn=>btn.classList.remove("active"));
+function setDifficulty(format) {
+  selectedDifficulty = format
+  document.querySelectorAll(".difficulty-buttons button")
+    .forEach(btn => btn.classList.remove("active"));
   event.target.classList.add('active')
 }
 
@@ -75,16 +74,16 @@ Return format:
         ]
       })
     });
-    const data=await response.json();
+    const data = await response.json();
     let content = data.choices[0].message.content;
-    const quizdata=data.parse(JSON);
+    const quizdata = data.parse(JSON);
     console.log(quizdata);
-    
+
     return quizdata;
-  }catch(error){
-console.error("AI Error:", error);
+  } catch (error) {
+    console.error("AI Error:", error);
     alert("Failed to generate quiz");
-    return [];       
+    return [];
   }
 }
 
@@ -99,7 +98,7 @@ startquiz.addEventListener('click', async function () {
     return;
   }
 
-  document.getElementById("loading").style.display = "block";
+  document.getElementById("loader").style.display = "flex";
   document.getElementById("quiz-container").innerHTML = "";
 
   const quiz = await generateAIQuiz(topic, selectedQuestions, selectedDifficulty);
@@ -108,3 +107,28 @@ startquiz.addEventListener('click', async function () {
 
   displayQuiz(quiz);
 });
+
+function displayQuiz(quiz) {
+  const container = document.getElementById('quiz-container');
+
+  quiz.forEach((q, index) => {
+    let html = `
+        <div class="question">
+        <p><b>Q${index + 1}: ${q.question}</b></p>`;
+
+    question.option.forEach((opt) => {
+      html += `
+      <label>
+          <input type="radio" name="q${index}" value="${opt}">
+          ${opt}
+        </label><br>
+      `
+    });
+    html += `</div><hr>`;
+    container.innerHTML += html;
+  });
+
+
+
+
+}
