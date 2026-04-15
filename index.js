@@ -1,4 +1,4 @@
-
+let timerInterval;
 let selectedQuestions = 5;
 let selectedDifficulty = "easy";
 let currentQuiz = [];
@@ -90,27 +90,26 @@ Return format:
       })
     });
     const data = await response.json();
-  let content = data.choices[0].message.content;
+    let content = data.choices[0].message.content;
 
-console.log("RAW AI:", content);
+    console.log("RAW AI:", content);
 
-// remove markdown
-content = content.replace(/```json/g, "").replace(/```/g, "").trim();
+    // remove markdown
+    content = content.replace(/```json/g, "").replace(/```/g, "").trim();
 
-// extract JSON array
-let start = content.indexOf("[");
-let end = content.lastIndexOf("]") + 1;
+    // extract JSON array
+    let start = content.indexOf("[");
+    let end = content.lastIndexOf("]") + 1;
 
-if (start === -1 || end === 0) {
-  throw new Error("Invalid AI response");
-}
+    if (start === -1 || end === 0) {
+      throw new Error("Invalid AI response");
+    }
 
-let clean = content.slice(start, end);
+    let clean = content.slice(start, end);
 
-const quizdata = JSON.parse(clean);
+    const quizdata = JSON.parse(clean);
 
-return quizdata;
-console.log(topic, selectedQuestions, selectedDifficulty);
+    return quizdata;
   } catch (error) {
     console.error("AI Error:", error);
     alert("Failed to generate quiz");
@@ -135,12 +134,12 @@ startquiz.addEventListener('click', async function () {
   const quiz = await generateAIQuiz(topic, selectedQuestions, selectedDifficulty);
 
   document.getElementById("loader").style.display = "none";
- document.getElementById("home").style.display = "none";
+  document.getElementById("home").style.display = "none";
   document.getElementById("quiz-page").style.display = "block";
 
-console.log("QUIZ DATA:", quiz);
- currentQuiz = quiz;
-displayQuiz(quiz);
+  console.log("QUIZ DATA:", quiz);
+  currentQuiz = quiz;
+  displayQuiz(quiz);
 });
 
 function displayQuiz(quiz) {
@@ -153,14 +152,14 @@ function displayQuiz(quiz) {
   quiz.forEach((q, index) => {
 
     let html = `
-      <div class="question">
+      <div class="question" style="display:none;">
         <p><b>Q${index + 1}: ${q.question}</b></p>
     `;
 
     q.options.forEach(opt => {
       html += `
         <label>
-          <input type="radio" name="q${index}" value="${opt}">
+          <input type="radio" name="q${index}" value="${opt}" >
           ${opt}
         </label><br>
       `;
@@ -168,9 +167,56 @@ function displayQuiz(quiz) {
 
     html += `</div><hr>`;
     container.innerHTML += html;
+
   });
 }
+let starttime = document.getElementById('start-quiz-btn')
+  starttime.addEventListener('click', function () {
+
+  document.querySelectorAll(".question").forEach(q => {
+    q.style.display = "block";
+  });
+
+  const timerBox = document.getElementById("timer-box");
+  timerBox.style.display = "block";
+   document.getElementById("submit-btn").style.display = "inline-block";
+
+  this.style.display = "none";
+  let totalTime = currentQuiz.length * 15;
+
+  startTimer(totalTime);
+
+})
+
+function startTimer(time) {
+
+  const timerDisplay = document.getElementById("timer");
+  const timerBox = document.getElementById("timer-box");
+
+  clearInterval(timerInterval);
+
+  timerInterval = setInterval(() => {
+
+    timerDisplay.innerText = `${time}s`;
+    if (time <= 10) {
+      timerBox.classList.add("timer-warning");
+    }
+    time--;
+
+    if (time < 0) {
+      clearInterval(timerInterval);
+
+      alert("⏰ Time's up! Auto submitting...");
+      document.getElementById("submit-btn").click();
+    }
+
+  }, 1000);
+}
+
+
 document.getElementById("submit-btn").addEventListener("click", function () {
+
+  clearInterval(timerInterval);
 
   let score = 0;
 
@@ -195,6 +241,14 @@ document.getElementById("submit-btn").addEventListener("click", function () {
       }
     });
   });
+  this.classList.add("glow-btn");
+
+  this.innerText = "Submitting...";
+
+  setTimeout(() => {
+    this.classList.remove("glow-btn");
+    this.innerText = "Submit Quiz";
+  }, 1500);
 
   document.getElementById("result").innerText =
     `🎯 Your Score: ${score} / ${currentQuiz.length}`;
