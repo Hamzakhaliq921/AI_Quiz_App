@@ -1,4 +1,5 @@
 let timerInterval;
+let globaltopic = "";
 let selectedQuestions = 5;
 let selectedDifficulty = "easy";
 let currentQuiz = [];
@@ -122,6 +123,7 @@ let startquiz = document.querySelector('.generate-btn');
 startquiz.addEventListener('click', async function () {
 
   const topic = document.getElementById('topic').value;
+  globaltopic = topic;
 
   if (!topic) {
     alert("Please enter a topic");
@@ -250,10 +252,10 @@ document.getElementById("submit-btn").addEventListener("click", function () {
 
   if (score === currentQuiz.length) {
     resultText.innerText += "\n🏆 Perfect Score!";
-    
-const sound = new Audio('audio/successsound.mp3');
-sound.volume = 0.9;
-sound.play().catch(err => console.log(err));
+
+    const sound = new Audio('audio/successsound.mp3');
+    sound.volume = 0.9;
+    sound.play().catch(err => console.log(err));
 
     if (window.confetti) {
       confetti({
@@ -264,7 +266,95 @@ sound.play().catch(err => console.log(err));
       });
     }
   }
+  document.getElementById("download-btn").style.display = "block";
 });
 
+//download button
+let downloadbtn = document.getElementById("download-btn");
+downloadbtn.addEventListener("click", generatePDF);
+downloadbtn.innerText =
+  `⬇ Download ${globaltopic} Report`;
+function generatePDF() {
 
- 
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  let y = 15;
+
+  // ===== HEADER =====
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(18);
+  doc.text(`${globaltopic}`+" QUIZ REPORT", 105, y, { align: "center" });
+
+  y += 10;
+
+  doc.setFontSize(12);
+  doc.setFont("helvetica", "normal");
+  doc.text(`Topic: ${globaltopic}`, 10, y);
+  y += 7;
+
+  doc.text(`Total Questions: ${currentQuiz.length}`, 10, y);
+  y += 10;
+
+  doc.line(10, y, 200, y); // line
+  y += 10;
+
+  // ===== QUESTIONS =====
+  currentQuiz.forEach((q, index) => {
+
+    doc.setFontSize(10);
+    doc.text(`Page ${doc.getCurrentPageInfo().pageNumber}`, 180, 290);
+
+    // Page break
+    if (y > 260) {
+      doc.addPage();
+      y = 15;
+    }
+
+    doc.setFont("helvetica", "bold");
+    doc.text(`Q${index + 1}. ${q.question}`, 10, y);
+    y += 8;
+
+    doc.setFont("helvetica", "normal");
+
+    // Options (A, B, C, D)
+    const labels = ["A", "B", "C", "D"];
+
+    q.options.forEach((opt, i) => {
+      doc.text(`${labels[i]}) ${opt}`, 12, y);
+      y += 6;
+    });
+
+    // Selected answer
+    const selected = document.querySelector(`input[name="q${index}"]:checked`);
+    const selectedAnswer = selected ? selected.value : "Not Answered";
+
+    y += 2;
+
+    // Correct Answer (Green)
+    doc.setTextColor(0, 128, 0);
+    doc.text(`✔ Correct: ${q.answer}`, 10, y);
+    y += 6;
+
+    // User Answer (Red if wrong)
+    if (selectedAnswer !== q.answer) {
+      doc.setTextColor(255, 0, 0);
+    } else {
+      doc.setTextColor(0, 128, 0);
+    }
+
+    doc.text(`Your Answer: ${selectedAnswer}`, 10, y);
+    y += 8;
+
+    doc.setTextColor(0, 0, 0);
+
+    doc.line(10, y, 200, y); // separator
+    y += 8;
+
+  });
+
+  // ===== SAVE FILE =====
+  doc.save(`${globaltopic}_quiz-report.pdf`);
+};
+
+
