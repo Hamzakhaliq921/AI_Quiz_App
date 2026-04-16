@@ -426,5 +426,35 @@ body {
 canvas {
   pointer-events: none;
 }
+#download-section {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+}
 
+/* DOWNLOAD BUTTON */
+#download-btn {
+  display: none;
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  
+  color: white;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
 
+  box-shadow: 0 8px 20px rgba(34, 197, 94, 0.4);
+  transition: all 0.3s ease;
+}
+#download-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(34, 197, 94, 0.6);
+}
+#download-btn:active {
+  transform: scale(0.96);
+}
+#download-btn::before {
+  content: "📄 ";
+}
