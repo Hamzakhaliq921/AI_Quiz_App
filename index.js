@@ -267,6 +267,7 @@ document.getElementById("submit-btn").addEventListener("click", function () {
     }
   }
   document.getElementById("download-btn").style.display = "block";
+  document.getElementById("downloadblank-Quiz-btn").style.display = "inline-block";
 });
 
 //download button
@@ -357,4 +358,60 @@ function generatePDF() {
   doc.save(`${globaltopic}_quiz-report.pdf`);
 };
 
+document.getElementById("downloadblank-Quiz-btn").addEventListener("click", function () {
 
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  let y = 15;
+
+  // ===== HEADER =====
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(18);
+  doc.text("AI QUIZ PRACTICE PAPER", 105, y, { align: "center" });
+
+  y += 10;
+
+  doc.setFontSize(12);
+  doc.setFont("helvetica", "normal");
+  doc.text(`Topic: ${globaltopic}`, 10, y);
+  y += 7;
+
+  doc.text(`Total Questions: ${currentQuiz.length}`, 10, y);
+  y += 10;
+
+  doc.line(10, y, 200, y);
+  y += 10;
+
+  // ===== QUESTIONS =====
+  currentQuiz.forEach((q, index) => {
+
+    // Page break
+    if (y > 260) {
+      doc.addPage();
+      y = 15;
+    }
+
+    doc.setFont("helvetica", "bold");
+    doc.text(`Q${index + 1}. ${q.question}`, 10, y);
+    y += 8;
+
+    doc.setFont("helvetica", "normal");
+
+    const labels = ["A", "B", "C", "D"];
+
+    q.options.forEach((opt, i) => {
+      doc.text(`☐ ${labels[i]}) ${opt}`, 12, y);
+      y += 7;
+    });
+
+    y += 5;
+
+    doc.line(10, y, 200, y); // separator
+    y += 10;
+
+  });
+
+  // ===== SAVE =====
+  doc.save(`${globaltopic}_blank-quiz.pdf`);
+});
