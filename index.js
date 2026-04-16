@@ -265,3 +265,152 @@ sound.play().catch(err => console.log(err));
     }
   }
 });
+
+
+// i copy prompt from ui library 21st.dev and create using claude and ai tools
+ (function () {
+  const canvas = document.getElementById('boxes-bg');
+  const ctx = canvas.getContext('2d');
+
+  const CELL_W = 64, CELL_H = 32;
+  const colors = [
+    'rgb(125,211,252)',
+    'rgb(249,168,212)',
+    'rgb(134,239,172)',
+    'rgb(253,224,71)',
+    'rgb(216,180,254)',
+    'rgb(147,197,253)',
+    'rgb(165,180,252)',
+    'rgb(196,181,253)',
+  ];
+  const BORDER = 'rgba(51,65,85,0.8)';
+
+  const SKEW_X = -Math.tan((48 * Math.PI) / 180);
+  const SKEW_Y = Math.tan((14 * Math.PI) / 180);
+  const SCALE = 0.675;
+
+  let cells = [], cols, rows;
+  let originX, originY;
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    originX = canvas.width * 0.25;
+    originY = -canvas.height * 0.15;
+
+    cols = Math.ceil((canvas.width * 2) / CELL_W) + 4;
+    rows = Math.ceil((canvas.height * 2.5) / CELL_H) + 4;
+
+    cells = [];
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        cells.push({
+          r, c,
+          alpha: 0,
+          color: colors[0],
+          active: false,
+          timer: 0
+        });
+      }
+    }
+  }
+
+  function cellToScreen(c, r) {
+    const lx = c * CELL_W;
+    const ly = r * CELL_H;
+    const sx = originX + (lx * SCALE + ly * SKEW_X * SCALE);
+    const sy = originY + (lx * SKEW_Y * SCALE + ly * SCALE);
+    return { sx, sy };
+  }
+
+  function screenToCell(mx, my) {
+    const tx = mx - originX;
+    const ty = my - originY;
+    const det = SCALE * SCALE - SKEW_X * SCALE * SKEW_Y * SCALE;
+    const invA = SCALE / (SCALE * SCALE);
+    const invB = -SKEW_X * SCALE / (SCALE * SCALE);
+    const invC = -SKEW_Y * SCALE / (SCALE * SCALE);
+    const invD = SCALE / (SCALE * SCALE);
+    const lx = invA * tx + invB * ty;
+    const ly = invC * tx + invD * ty;
+    const c = Math.floor(lx / CELL_W);
+    const r = Math.floor(ly / CELL_H);
+    return { c, r };
+  }
+
+  canvas.style.pointerEvents = 'auto';
+
+  canvas.addEventListener('mousemove', function (e) {
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+    const { c, r } = screenToCell(mx, my);
+
+    for (const cell of cells) {
+      if (cell.c === c && cell.r === r) {
+        cell.active = true;
+        cell.alpha = 1;
+        cell.timer = 200;
+        cell.color = colors[Math.floor(Math.random() * colors.length)];
+        break;
+      }
+    }
+  });
+
+  function draw() {
+    canvas.width = canvas.width;
+
+    ctx.fillStyle = '#0f172a';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.save();
+    ctx.translate(originX, originY);
+    ctx.transform(SCALE, SKEW_Y * SCALE, SKEW_X * SCALE, SCALE, 0, 0);
+
+    for (const cell of cells) {
+      const x = cell.c * CELL_W;
+      const y = cell.r * CELL_H;
+
+      if (cell.active) {
+        cell.timer += 16;
+        if (cell.timer < 600) {
+          cell.alpha = 1;
+        } else if (cell.timer < 1000) {
+          cell.alpha = 1 - (cell.timer - 600) / 400;
+        } else {
+          cell.active = false;
+          cell.alpha = 0;
+        }
+
+        if (cell.alpha > 0) {
+          ctx.globalAlpha = cell.alpha;
+          ctx.fillStyle = cell.color;
+          ctx.fillRect(x, y, CELL_W, CELL_H);
+          ctx.globalAlpha = 1;
+        }
+      }
+
+      ctx.strokeStyle = BORDER;
+      ctx.lineWidth = 0.8;
+      ctx.strokeRect(x, y, CELL_W, CELL_H);
+
+      if (cell.r % 2 === 0 && cell.c % 2 === 0) {
+        ctx.strokeStyle = 'rgba(51,65,85,0.6)';
+        ctx.lineWidth = 0.8;
+        ctx.beginPath();
+        ctx.moveTo(x + CELL_W / 2, y + 4);
+        ctx.lineTo(x + CELL_W / 2, y + CELL_H - 4);
+        ctx.moveTo(x + 4, y + CELL_H / 2);
+        ctx.lineTo(x + CELL_W - 4, y + CELL_H / 2);
+        ctx.stroke();
+      }
+    }
+
+    ctx.restore();
+    requestAnimationFrame(draw);
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  requestAnimationFrame(draw);
+})();
