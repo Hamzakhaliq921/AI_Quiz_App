@@ -267,5 +267,4 @@ sound.play().catch(err => console.log(err));
 });
 
 
-// i copy prompt from ui library 21st.dev and create using claude and ai tools
  
