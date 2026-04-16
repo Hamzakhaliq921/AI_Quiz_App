@@ -4,6 +4,7 @@
   box-sizing: border-box;
 }
 
+
 body {
   font-family: 'Segoe UI', sans-serif;
   background: linear-gradient(135deg, #4facfe, #00f2fe);
@@ -423,5 +424,23 @@ body {
 canvas {
   pointer-events: none;
 }
+/* //styling of backgoud ui library */
 
+  #boxes-bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    display: block;
+  }
 
+  body {
+    background: #0f172a !important;
+    min-height: 100vh;
+  }
+
+  .container, #quiz-page, #loader {
+    position: relative;
+    z-index: 1;
+  }
