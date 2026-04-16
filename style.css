@@ -458,3 +458,23 @@ canvas {
 #download-btn::before {
   content: "📄 ";
 }
+/* blank quiz download */
+#downloadblank-Quiz-btn {
+  display: none;
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+
+  color: white;
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+  transition: 0.3s;
+}
+
+#downloadblank-Quiz-btn:hover {
+  transform: translateY(-3px);
+}
