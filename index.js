@@ -171,7 +171,7 @@ function displayQuiz(quiz) {
   });
 }
 let starttime = document.getElementById('start-quiz-btn')
-  starttime.addEventListener('click', function () {
+starttime.addEventListener('click', function () {
 
   document.querySelectorAll(".question").forEach(q => {
     q.style.display = "block";
@@ -179,7 +179,7 @@ let starttime = document.getElementById('start-quiz-btn')
 
   const timerBox = document.getElementById("timer-box");
   timerBox.style.display = "block";
-   document.getElementById("submit-btn").style.display = "inline-block";
+  document.getElementById("submit-btn").style.display = "inline-block";
 
   this.style.display = "none";
   let totalTime = currentQuiz.length * 15;
@@ -212,9 +212,10 @@ function startTimer(time) {
 
   }, 1000);
 }
-
 document.getElementById("submit-btn").addEventListener("click", function () {
-clearInterval(timerInterval);
+
+  clearInterval(timerInterval);
+
   this.classList.add("glow-btn");
 
   setTimeout(() => {
@@ -226,7 +227,6 @@ clearInterval(timerInterval);
   currentQuiz.forEach((q, index) => {
 
     const options = document.querySelectorAll(`input[name="q${index}"]`);
-
     const selected = document.querySelector(`input[name="q${index}"]:checked`);
 
     if (selected && selected.value === q.answer) {
@@ -243,6 +243,25 @@ clearInterval(timerInterval);
 
   });
 
-  document.getElementById("result").innerText =
-    `🎯 Your Score: ${score} / ${currentQuiz.length}`;
+
+  const resultText = document.getElementById("result");
+
+  resultText.innerText = `🎯 Your Score: ${score} / ${currentQuiz.length}`;
+
+  if (score === currentQuiz.length) {
+    resultText.innerText += "\n🏆 Perfect Score!";
+    
+const sound = new Audio('audio/successsound.mp3');
+sound.volume = 0.9;
+sound.play().catch(err => console.log(err));
+
+    if (window.confetti) {
+      confetti({
+        particleCount: 200,
+        spread: 90,
+        origin: { y: 0.6 },
+        zIndex: 1001
+      });
+    }
+  }
 });
