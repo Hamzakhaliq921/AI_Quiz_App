@@ -4,11 +4,13 @@
   box-sizing: border-box;
 }
 
-
 body {
-  font-family: 'Segoe UI', sans-serif;
+   margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
   background: linear-gradient(135deg, #4facfe, #00f2fe);
-  min-height: 100vh;
+  
+  height: 100vh;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -352,6 +354,9 @@ body {
 /* OPTIONAL: CENTER SCREEN LOOK */
 #quiz-page {
   text-align: center;
+   display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 /* ONLY ONE GLOW SYSTEM */
 .glow-btn {
@@ -424,23 +429,5 @@ body {
 canvas {
   pointer-events: none;
 }
-/* //styling of backgoud ui library */
 
-  #boxes-bg {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    z-index: 0;
-    pointer-events: none;
-    display: block;
-  }
 
-  body {
-    background: #0f172a !important;
-    min-height: 100vh;
-  }
-
-  .container, #quiz-page, #loader {
-    position: relative;
-    z-index: 1;
-  }
