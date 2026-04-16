@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Quiz Generator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="bg-boxes-canvas"></div>
+  <div class="container" id="home">
+
+    <h1>AI Quiz Generator</h1>
+
+    <input type="text" id="topic" placeholder="Enter topic (e.g. JavaScript)">
+
+    <p class="label">Number of Questions</p>
+    <div class="mcq-buttons">
+      <button onclick="setQuestions(5)">5</button>
+      <button onclick="setQuestions(10)">10</button>
+      <button onclick="setQuestions(15)">15</button>
+      <button onclick="setQuestions(20)">20</button>
+    </div>
+
+    <input type="number" id="num" placeholder="Or enter custom number" min="1" max="50">
+
+    <p class="label">Difficulty</p>
+    <div class="difficulty-buttons">
+      <button onclick="setDifficulty('easy')">Easy</button>
+      <button onclick="setDifficulty('medium')">Medium</button>
+      <button onclick="setDifficulty('hard')">Hard</button>
+    </div>
+
+    <button class="generate-btn">Generate Quiz</button>
+<audio id="celebration-sound" src="sounds/celebration.mp3"></audio>
+  </div>
+
+  <div id="loader" class="loader-wrapper">
+    <div class="loader">
+      <div class="spinner"></div>
+      <p>Generating Quiz...</p>
+    </div>
+  </div>
+
+  <div id="quiz-page" style="display:none;">
+
+  <h2>Quiz</h2>
+
+  <button id="start-quiz-btn">Start Quiz</button>
+
+  <div id="timer-box" style="display:none;">
+    ⏱ <span id="timer">0s</span>
+  </div>
+
+  <div id="quiz-container"></div>
+
+  <button id="submit-btn" style="display:none;">Submit Quiz</button>
+
+  <h2 id="result"></h2>
+<div id="download-section">
+  <button id="download-btn">
+    ⬇ Download Report
+  </button>
+  
+  <button id="downloadblank-Quiz-btn">
+    ⬇ Download Blank Quiz
+  </button>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script src="index.js"></script>
+
+  
+</body>
+</html>
