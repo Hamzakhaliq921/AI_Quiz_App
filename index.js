@@ -316,7 +316,7 @@ function generatePDF() {
     doc.text(`Q${index + 1}. ${q.question}`, 10, y);
     y += 8;
 
-    doc.setFont("helvetica", "normal");
+    doc.setFont("times", "normal");
 
     // Options (A, B, C, D)
     const labels = ["A", "B", "C", "D"];
@@ -368,7 +368,7 @@ document.getElementById("downloadblank-Quiz-btn").addEventListener("click", func
   // ===== HEADER =====
   doc.setFont("helvetica", "bold");
   doc.setFontSize(18);
-  doc.text("AI QUIZ PRACTICE PAPER", 105, y, { align: "center" });
+  doc.text(`${globaltopic}`+" QUIZ ", 105, y, { align: "center" });
 
   y += 10;
 
@@ -396,14 +396,18 @@ document.getElementById("downloadblank-Quiz-btn").addEventListener("click", func
     doc.text(`Q${index + 1}. ${q.question}`, 10, y);
     y += 8;
 
-    doc.setFont("helvetica", "normal");
+    doc.setFont("times", "normal");
 
-    const labels = ["A", "B", "C", "D"];
+const labels = ["A", "B", "C", "D"];
 
-    q.options.forEach((opt, i) => {
-      doc.text(`☐ ${labels[i]}) ${opt}`, 12, y);
-      y += 7;
-    });
+q.options.forEach((opt, i) => {
+
+  const cleanText = opt.replace(/&/g, "");
+
+  doc.text(`${labels[i]}) ${cleanText}`, 12, y);
+  y += 7;
+
+});
 
     y += 5;
 
