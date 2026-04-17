@@ -9,7 +9,7 @@ let currentQuiz = [];
 // Local testing ke liye: http://localhost:3000
 // Production ke liye: https://your-app.onrender.com
 // =============================================
-const BACKEND_URL = "http://localhost:3000";
+const BACKEND_URL = "aiquizapp-production.up.railway.app";
 
 function setQuestions(num) {
   selectedQuestions = num;
