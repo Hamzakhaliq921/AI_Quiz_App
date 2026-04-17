@@ -72,7 +72,7 @@ async function generateAIQuiz(topic, numQuestions, difficulty) {
 
     // Helpful error messages
     if (error.message.includes("Failed to fetch")) {
-      alert("❌ Server se connect nahi ho saka!\nMake sure backend server chal raha hai:\ncd backend && node server.js");
+      alert("❌ Server is not conntected!\nMake sure backend server is wording:\ncd backend && node server.js");
     } else {
       alert("❌ Quiz generate karne mein error: " + error.message);
     }
