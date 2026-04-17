@@ -74,7 +74,7 @@ async function generateAIQuiz(topic, numQuestions, difficulty) {
     if (error.message.includes("Failed to fetch")) {
       alert("❌ Server is not conntected!\nMake sure backend server is wording:\ncd backend && node server.js");
     } else {
-      alert("❌ Quiz generate karne mein error: " + error.message);
+      alert("❌ Error in Generating Quiz: " + error.message);
     }
     return [];
   }
