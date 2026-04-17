@@ -238,9 +238,7 @@ document.getElementById("submit-btn").addEventListener("click", function () {
   document.getElementById("downloadblank-Quiz-btn").style.display = "inline-block";
 });
 
-// =============================================
 // PDF DOWNLOAD - Answer Report
-// =============================================
 let downloadbtn = document.getElementById("download-btn");
 downloadbtn.addEventListener("click", generatePDF);
 
@@ -318,9 +316,7 @@ function generatePDF() {
   doc.save(`${globaltopic}_quiz-report.pdf`);
 };
 
-// =============================================
 // PDF DOWNLOAD - Blank Quiz
-// =============================================
 document.getElementById("downloadblank-Quiz-btn").addEventListener("click", function () {
 
   const { jsPDF } = window.jspdf;
