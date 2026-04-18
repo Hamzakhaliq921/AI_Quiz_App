@@ -5,8 +5,7 @@ let selectedDifficulty = "easy";
 let currentQuiz = [];
 
 
-const BACKEND_URL = "aiquizapp-production.up.railway.app";
-
+const BACKEND_URL = "https://aiquizapp-production.up.railway.app";
 function setQuestions(num) {
   selectedQuestions = num;
   document.getElementById("num").value = num;
