@@ -4,11 +4,7 @@ let selectedQuestions = 5;
 let selectedDifficulty = "easy";
 let currentQuiz = [];
 
-// =============================================
-// ✅ BACKEND URL - Yahan apna Render URL daalo
-// Local testing ke liye: http://localhost:3000
-// Production ke liye: https://your-app.onrender.com
-// =============================================
+
 const BACKEND_URL = "aiquizapp-production.up.railway.app";
 
 function setQuestions(num) {
