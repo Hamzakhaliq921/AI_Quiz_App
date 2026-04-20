@@ -57,8 +57,15 @@ app.post('/api/generate-quiz', async (req, res) => {
     });
 
     const data = await response.json();
-    let content = data.choices[0].message.content;
+if (!data.choices || !data.choices[0]) {
+  console.error("OpenRouter Error Response:", data);
+  return res.status(500).json({
+    error: "AI response failed",
+    details: data
+  });
+}
 
+let content = data.choices[0].message.content;
     // Clean JSON
     content = content.replace(/```json/g, '').replace(/```/g, '').trim();
     const start = content.indexOf('[');
