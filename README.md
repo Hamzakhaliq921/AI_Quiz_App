@@ -3,31 +3,26 @@
 <p align="center"> <img src="https://github.com/user-attachments/assets/6fc01362-241e-4b50-9da2-9d355685026f" width="700"/> </p>
 🧠 Quiz Generation Screen
 <p align="center"> <img src="https://github.com/user-attachments/assets/3fd7aa02-2037-4c5b-9a06-1c245f001a49" width="700"/> </p>
-⚙️ Difficulty & Settings Panel
+ Difficulty & Settings Panel
 <p align="center"> <img src="https://github.com/user-attachments/assets/204593d6-6f11-4335-9109-50a84564d3de" width="700"/> </p>
-⏳ Start Quiz
+ Start Quiz
 <p align="center"> <img src="https://github.com/user-attachments/assets/b1b728e1-7a54-4032-a6cb-f6121513ee1d" width="700"/> </p>
-🎯 Quiz Result Screen
+ Quiz Generated Screen
 <p align="center"> <img src="https://github.com/user-attachments/assets/affa09be-c24e-450d-8031-9839af5c4b50" width="700"/> </p>
-📊 Score & Feedback View
 <p align="center"> <img src="https://github.com/user-attachments/assets/54f1f9db-da35-4c4c-83b3-fb3284da6d4c" width="700"/> </p>
-📄 PDF Report Preview
+ Auto Submitting after time complete
 <p align="center"> <img src="https://github.com/user-attachments/assets/f69d0b3b-d97f-4e4f-92d1-5603cdf6995c" width="500"/> </p>
-📥 Blank Quiz Download
+ Correct Answer
 <p align="center"> <img src="https://github.com/user-attachments/assets/14529f44-0550-4f3c-8935-e07c75fb9544" width="700"/> </p>
-🔐 Backend Architecture
+ Wrong Answer
 <p align="center"> <img src="https://github.com/user-attachments/assets/20c1f405-9bd2-4405-a4a8-c49540bd553c" width="700"/> </p>
-🌐 API Integration Flow
+ Score & Celeration ans Success Sound on Full Marks
 <p align="center"> <img src="https://github.com/user-attachments/assets/4a07d276-587b-4e02-82db-9556c393223f" width="700"/> </p>
-🚀 Deployment Setup
+Blank Pdf And Report of Quiz
 <p align="center"> <img src="https://github.com/user-attachments/assets/7b3c22d1-2443-4307-a85d-b845e5121b04" width="700"/> </p>
-⚡ Final UI Overview
 <p align="center"> <img src="https://github.com/user-attachments/assets/45c02e8b-3931-452f-891b-13fd2ca5b4a5" width="700"/> </p>
-🎉 Full System View
 <p align="center"> <img src="https://github.com/user-attachments/assets/ad385d8b-a73f-4edd-8a19-8234c9dba8bf" width="700"/> </p>
-🧾 Final Result Screen
 <p align="center"> <img src="https://github.com/user-attachments/assets/195a7852-7484-46d2-9d9e-183b0b873132" width="700"/> </p>
-
 
 
 # 🧠 AI Quiz Generator
